@@ -558,16 +558,20 @@ public class GamePanel extends javax.swing.JPanel implements ScoreChart.Listener
 					pNameDisplay.setForeground(Color.blue);
 				}
 
-				//Turn goes up, unless there is a tie
+				//Turn goes up, unless there is a tie, bug fix:5/3/16 
 				if(turnNum == 42){
 					for (GUIPiece piece : pieces) {
+						try{
 						piece.setIcon(null);
-						topGlass.remove(piece);
+						topGlass.remove(piece);}
+						catch (Exception ex){
+							gui.setWinner("It's a tie!");
+							board.clear();
+							initNewGame();
+							gui.addGameOver();
+						}
 					}
-					gui.setWinner("It's a tie!");
-					board.clear();
-					initNewGame();
-					gui.addGameOver();
+
 				}
 				else{
 					pieces[turnNum] = new GUIPiece(turnNum%2);
